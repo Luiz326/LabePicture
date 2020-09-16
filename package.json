@@ -1,0 +1,42 @@
+{
+  "name": "labepicture",
+  "version": "1.0.0",
+  "description": "Backend do projeto",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Luiz326/LabePicture.git"
+  },
+  "keywords": [
+    "backend"
+  ],
+  "author": "Luiz Mitsuru Dai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Luiz326/LabePicture/issues"
+  },
+  "homepage": "https://github.com/Luiz326/LabePicture#readme",
+  "dependencies": {
+    "knex": "^0.21.5",
+    "ts-node": "^9.0.0",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/express": "^4.17.7",
+    "@types/jest": "^25.2.3",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/knex": "^0.16.1",
+    "@types/uuid": "^8.0.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "jest": "^26.0.1",
+    "moment": "^2.27.0",
+    "mysql": "^2.18.1",
+    "ts-jest": "^26.1.0",
+    "typescript": "^3.9.6",
+    "uuid": "^8.2.0"
+  }
+}
