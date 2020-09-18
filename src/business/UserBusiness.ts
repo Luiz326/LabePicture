@@ -1,64 +1,64 @@
 import { IdGenerator } from "../services/IdGenerator";
 import { UserDatabase } from "../data/UserDatabase";
-import { LoginInputDTO, User, FriendshipInputDTO } from "../model/User";
 import { HashManager } from "../services/HashManager";
+import { Authenticator } from "../services/Authenticator";
+import { BaseBusiness } from "./BaseBusiness";
 
-export class UserBusiness {
+export class UserBusiness extends BaseBusiness {
   public async signup(
     name: string,
     email: string,
+    nickname: string,
     password: string
   ): Promise<string> {
+    this.validateInput({ name, email, nickname, password });
+
     const idGenerator = new IdGenerator();
-    const id = idGenerator.generate();
-
-    const userDatabase = new UserDatabase();
-
-    await userDatabase.signup(id, name, email, password);
-
-    return id;
-  }
-
-  public async getUserByEmail(input: LoginInputDTO) {
-    const userDatabase = new UserDatabase();
-    const user: User = await userDatabase.getUserByEmail(input.email);
+    const id = idGenerator.generateId();
 
     const hashManager = new HashManager();
-    const hashCompare = await hashManager.compare(
-      input.password,
-      user.getPassword()
-    );
+    const hashPassword = await hashManager.hash(password);
 
-    if (!hashCompare) {
+    const userDatabase = new UserDatabase();
+    await userDatabase.createUser(id, name, email, nickname, hashPassword);
+
+    const authenticator = new Authenticator();
+    const token = authenticator.generateToken({ id });
+
+    return token;
+  }
+  public async login(email: string, password: string): Promise<string> {
+    this.validateInput({ email, password });
+
+    const userDatabase = new UserDatabase();
+    const user = await userDatabase.getUserByEmail(email);
+
+    const hashManager = new HashManager();
+    const comparePassword = await hashManager.compare(password, user.password);
+    if (!comparePassword) {
       throw new Error("Invalid password!");
     }
 
-    return user;
+    const authenticator = new Authenticator();
+    const token = authenticator.generateToken({ id: user.id });
+
+    return token;
   }
 
-  public async befriend(input: FriendshipInputDTO) {
-    const userDatabase = new UserDatabase();
-    const isFriend = await userDatabase.checkFriendship(
-      input.userId,
-      input.targetId
-    );
-    if (!isFriend) {
-      await userDatabase.befriend(input.userId, input.targetId);
-    } else {
-      throw new Error("Friendship already exists");
-    }
-  }
+  //   public async getUserByEmail(input: LoginInputDTO) {
+  //     const userDatabase = new UserDatabase();
+  //     const user: User = await userDatabase.getUserByEmail(input.email);
 
-  public async unfriend(input: FriendshipInputDTO) {
-    const userDatabase = new UserDatabase();
-    const isFriend = await userDatabase.checkFriendship(
-      input.userId,
-      input.targetId
-    );
-    if (isFriend) {
-      await userDatabase.unfriend(input.userId, input.targetId);
-    } else {
-      throw new Error("Friendship doesn't exist");
-    }
-  }
+  //     const hashManager = new HashManager();
+  //     const hashCompare = await hashManager.compare(
+  //       input.password,
+  //       user.getPassword()
+  //     );
+
+  //     if (!hashCompare) {
+  //       throw new Error("Invalid password!");
+  //     }
+
+  //     return user;
+  //   }
 }
