@@ -26,4 +26,27 @@ export class ImageBusiness extends BaseBusiness {
       collection
     );
   }
+  public async getImage(
+    token: string | undefined,
+    imageId: string | undefined
+  ): Promise<void> {
+    const user = await this.validateToken(token);
+
+    this.validateInput({ imageId });
+    if (!imageId) {
+      throw new Error("Invalide param: ID!!!!");
+    }
+    const imageDatabase = new ImageDatabase();
+    // const result = await imageDatabase.getImage(imageId);
+    // return result;
+    return imageDatabase.getImage(imageId);
+  }
+  public async getAllImages(token: string | undefined): Promise<void> {
+    const user = await this.validateToken(token);
+
+    const imageDatabase = new ImageDatabase();
+    // const result = await imageDatabase.getImage(imageId);
+    // return result;
+    return imageDatabase.getAllImages();
+  }
 }
