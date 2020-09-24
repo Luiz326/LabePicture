@@ -10,7 +10,6 @@ export abstract class BaseBusiness {
     }
   }
   public async validateToken(token: any): Promise<user> {
-    console.log(token);
     if (!token || typeof token !== "string") {
       throw new Error("Invalid token1");
     }

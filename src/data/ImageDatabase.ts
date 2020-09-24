@@ -25,11 +25,18 @@ export class ImageDatabase extends BaseDatabase {
       .into(ImageDatabase.TABLE_NAME);
   }
 
-  public async getImage(image: string): Promise<any> {
+  public async getImage(id: string): Promise<any> {
     const result = await this.getConnection()
       .select("*")
       .from(ImageDatabase.TABLE_NAME)
-      .where({ image });
-    return result[0];
+      .where({ id })
+      .first();
+    return result;
+  }
+  public async getAllImages(): Promise<any> {
+    const result = await this.getConnection()
+      .select("*")
+      .from(ImageDatabase.TABLE_NAME);
+    return result;
   }
 }
