@@ -1,5 +1,5 @@
 import { json } from "express";
-import { BaseDatabase } from "./BaseDatabase";
+import { BaseDatabase } from "./baseDatabase";
 
 export class ImageDatabase extends BaseDatabase {
   private static TABLE_NAME: string = "image_labepicture";

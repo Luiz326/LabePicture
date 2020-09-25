@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { BaseDatabase } from "../data/BaseDatabase";
+import { BaseDatabase } from "../data/baseDatabase";
 import { ImageBusiness } from "../business/ImageBusiness";
-import { tokenToString } from "typescript";
+
 import { hash } from "bcryptjs";
 
 export class ImageController {

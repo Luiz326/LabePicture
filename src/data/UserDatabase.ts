@@ -1,5 +1,4 @@
-import { isForInStatement } from "typescript";
-import { BaseDatabase } from "./BaseDatabase";
+import { BaseDatabase } from "./baseDatabase";
 
 export class UserDatabase extends BaseDatabase {
   private static TABLE_NAME: string = "user_labepicture";
